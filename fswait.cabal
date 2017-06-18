@@ -2,6 +2,7 @@ name:                fswait
 version:             1.0.0
 synopsis:            Wait and observe events on the filesystem for a path, with a timeout
 homepage:            https://github.com/ixmatus/fswait
+Bug-Reports:         https://github.com/ixmatus/fswait/issues
 license:             BSD3
 license-file:        LICENSE
 author:              Parnell Springmeyer
@@ -19,6 +20,11 @@ Description:
     The primary use-case for this is in system startup scripts that
     depend on the existence of some file or directory that will be
     created by another system service or job.
+
+Source-Repository head
+    Type:     git
+    Location: https://github.com/ixmatus/fswait
+
 
 executable fswait
   main-is:             Main.hs
