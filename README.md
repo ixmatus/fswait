@@ -50,4 +50,12 @@ Available options:
   --exists                 Return immediately if the filepath already exists
 ```
 
+# Installing
+
+If you have Nix you can install it using:
+
+```shell
+$ nix-env --install --attr fswait release.nix
+```
+
 
