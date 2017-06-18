@@ -28,7 +28,7 @@ Source-Repository head
 
 executable fswait
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
                 base                 >= 4.8     && < 5
               , optparse-generic     >= 1.1.5   && < 1.2
