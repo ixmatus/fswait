@@ -7,6 +7,7 @@
 {-# LANGUAGE RecordWildCards    #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeOperators      #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module Main where
 
@@ -14,7 +15,7 @@ import           Control.Applicative          (empty, (<|>))
 import           Control.Concurrent           (threadDelay)
 import qualified Control.Concurrent.STM       as STM
 import qualified Control.Concurrent.STM.TMVar as TMVar
-import           Control.Monad                (forever, when)
+import           Control.Monad                (when)
 import           Data.List.NonEmpty           (NonEmpty)
 import qualified Data.List.NonEmpty           as NonEmpty
 import           Data.Maybe                   (fromMaybe)
@@ -27,8 +28,7 @@ import qualified Options.Applicative          as Options
 import           Options.Generic
 import           System.INotify               as INotify
 import qualified System.Timeout
-import           Turtle                       (ExitCode (..), d, fp, liftIO, s,
-                                               void, (%), (</>))
+import           Turtle                       (ExitCode (..), fp, s, void, (%))
 import qualified Turtle
 
 data Options w = Options
@@ -46,7 +46,7 @@ instance ParseRecord Time.Units.Second where
 instance ParseFields Time.Units.Second
 instance ParseField Time.Units.Second where
   parseField h n =
-    fmap (Time.Units.fromMicroseconds . (*(10^6)))
+    fmap (Time.Units.fromMicroseconds . (*μ))
       (Options.option Options.auto $
        (  Options.metavar "Seconds"
        <> foldMap (Options.long . Text.unpack) n
@@ -79,6 +79,9 @@ instance ParseField EventVariety where
     <|> Options.flag' OneShot      (Options.long "oneShot")
     <|> Options.flag' AllEvents    (Options.long "all")
 
+μ :: Integer
+μ = 10 ^ (6 :: Integer)
+
 main :: IO ()
 main = do
   Options{..} <- unwrapRecord "Wait and observe events on the filesystem for a path, with a timeout"
@@ -94,7 +97,7 @@ main = do
   let eventSet  = NonEmpty.toList (NonEmpty.nub events)
   let watchdir  = Path.encodeString (Path.directory path)
   let watchfile = Path.encodeString (Path.filename path)
-  let timeout'  = fromMaybe (Time.Units.fromMicroseconds (120*(10^6))) timeout
+  let timeout'  = fromMaybe (Time.Units.fromMicroseconds (120 * μ)) timeout
   let eventsStr = Text.unwords $ fmap (Text.pack . show) eventSet
 
   let eventObservation =
@@ -132,9 +135,8 @@ main = do
             ev@Modified{..}   -> maybeFileEvent maybeFilePath ev
             ev@MovedIn{..}    -> fileEvent filePath ev
             ev@MovedOut{..}   -> fileEvent filePath ev
-            ev@MovedSelf{..}  -> print isDirectory
             ev@Opened{..}     -> maybeFileEvent maybeFilePath ev
-            ev                -> print ev
+            ev                -> void (writeEvent ev)
           ev <- eventObservation
           removeWatch wid
           pure ev)
