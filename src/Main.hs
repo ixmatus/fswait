@@ -34,6 +34,7 @@ import qualified Turtle
 data Options w = Options
   { timeout :: w ::: Maybe Time.Units.Second <?> "Window to observe a filesystem event (default: 120s, negative values wait indefinitely)"
   , path    :: w ::: Path.FilePath           <?> "Observe filesystem events for path"
+  , exists  :: w ::: Bool                    <?> "Return immediately if the filepath already exists"
   , events  :: w ::: NonEmpty EventVariety   <?> "Observable event"
   } deriving (Generic)
 
@@ -81,6 +82,12 @@ instance ParseField EventVariety where
 main :: IO ()
 main = do
   Options{..} <- unwrapRecord "Wait and observe events on the filesystem for a path, with a timeout"
+
+  when exists $ do
+    pathExists <- Turtle.testfile path
+    when pathExists $ do
+      Turtle.err $ Turtle.format ("exists: "%fp) path
+      Turtle.exit ExitSuccess
 
   mvar <- STM.atomically TMVar.newEmptyTMVar
 
