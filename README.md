@@ -44,9 +44,9 @@ Usage: fswait [--timeout Seconds] --path FILEPATH (--access | --modify |
 
 Available options:
   -h,--help                Show this help text
-  --timeout Seconds        Max timeout to wait for an observation (default:
-                           120s, negative values wait indefinitely)
-  --path FILEPATH          Observe events for path
+  --timeout Seconds        Window to observe a filesystem event (default: 120s,
+                           negative values wait indefinitely)
+  --path FILEPATH          Observe filesystem events for path
 ```
 
 

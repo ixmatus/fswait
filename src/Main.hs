@@ -32,9 +32,9 @@ import           Turtle                       (ExitCode (..), d, fp, liftIO, s,
 import qualified Turtle
 
 data Options w = Options
-  { timeout :: w ::: Maybe Time.Units.Second <?> "Max timeout to wait for an observation (default: 120s, negative values wait indefinitely)"
-  , path    :: w ::: Path.FilePath           <?> "Observe events for path"
-  , events  :: w ::: NonEmpty EventVariety   <?> "Event to observe"
+  { timeout :: w ::: Maybe Time.Units.Second <?> "Window to observe a filesystem event (default: 120s, negative values wait indefinitely)"
+  , path    :: w ::: Path.FilePath           <?> "Observe filesystem events for path"
+  , events  :: w ::: NonEmpty EventVariety   <?> "Observable event"
   } deriving (Generic)
 
 instance ParseRecord (Options Wrapped)
