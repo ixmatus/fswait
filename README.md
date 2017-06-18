@@ -14,8 +14,8 @@ This tool makes that pattern more easily expressed as a command line utility
 call that also supports observing _many different_ filesystem events for the
 specified path.
 
-```shell
-$ fswait --path /etc/someconfig.ini --create && && echo 'Do something!'
+```bash
+$ fswait --path /etc/someconfig.ini --modify --create && echo 'Do something!'
 observing Create for /home/parnell/Desktop/test.sh
 the window for an observation is 120s
 Created {isDirectory = False, filePath = "someconfig.ini"}
@@ -28,7 +28,7 @@ code of 0 and print the observed event.
 If the timeout window is reached without an observation occurring, an exit code
 of 1 is returned.
 
-```shell
+```bash
 $ fswait --help
 Wait and observe events on the filesystem for a path, with a timeout
 
