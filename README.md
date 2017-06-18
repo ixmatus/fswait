@@ -16,7 +16,7 @@ specified path.
 
 ```bash
 $ fswait --path /etc/someconfig.ini --modify --create && echo 'Do something!'
-observing Create for /home/parnell/Desktop/test.sh
+observing Create Modify for /home/parnell/Desktop/test.sh
 the window for an observation is 120s
 Created {isDirectory = False, filePath = "someconfig.ini"}
 Do something!
@@ -32,21 +32,22 @@ of 1 is returned.
 $ fswait --help
 Wait and observe events on the filesystem for a path, with a timeout
 
-Usage: fswait [--timeout Seconds] --path FILEPATH (--access | --modify |
-              --attrib | --close | --closeWrite | --closeNoWrite | --open |
-              --move | --moveIn | --moveOut | --moveSelf | --create | --delete |
-              --onlyDir | --noSymlink | --maskAdd | --oneShot | --all)
-              ([--access]... | [--modify]... | [--attrib]... | [--close]... |
-              [--closeWrite]... | [--closeNoWrite]... | [--open]... |
-              [--move]... | [--moveIn]... | [--moveOut]... | [--moveSelf]... |
-              [--create]... | [--delete]... | [--onlyDir]... | [--noSymlink]...
-              | [--maskAdd]... | [--oneShot]... | [--all]...)
+Usage: fswait [--timeout Seconds] --path FILEPATH [--exists] (--access |
+              --modify | --attrib | --close | --closeWrite | --closeNoWrite |
+              --open | --move | --moveIn | --moveOut | --moveSelf | --create |
+              --delete | --onlyDir | --noSymlink | --maskAdd | --oneShot |
+              --all) ([--access]... | [--modify]... | [--attrib]... |
+              [--close]... | [--closeWrite]... | [--closeNoWrite]... |
+              [--open]... | [--move]... | [--moveIn]... | [--moveOut]... |
+              [--moveSelf]... | [--create]... | [--delete]... | [--onlyDir]... |
+              [--noSymlink]... | [--maskAdd]... | [--oneShot]... | [--all]...)
 
 Available options:
   -h,--help                Show this help text
   --timeout Seconds        Window to observe a filesystem event (default: 120s,
                            negative values wait indefinitely)
   --path FILEPATH          Observe filesystem events for path
+  --exists                 Return immediately if the filepath already exists
 ```
 
 
