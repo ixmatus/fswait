@@ -1,6 +1,6 @@
 { mkDerivation, base, hinotify, optparse-applicative
-, optparse-generic, stdenv, stm, system-filepath, text, time-units
-, turtle
+, optparse-generic, semigroups, stdenv, stm, system-filepath, text
+, time-units, turtle
 }:
 mkDerivation {
   pname = "fswait";
@@ -9,7 +9,7 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base hinotify optparse-applicative optparse-generic stm
+    base hinotify optparse-applicative optparse-generic semigroups stm
     system-filepath text time-units turtle
   ];
   homepage = "https://github.com/ixmatus/fswait";
