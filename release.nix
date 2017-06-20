@@ -13,6 +13,6 @@ let
   };
 
   pkgs =
-    import <nixpkgs> { inherit config; };
+    import <nixpkgs> { inherit config; system = "x86_64-linux"; };
 
 in { fswait = pkgs.haskellPackages.fswait; }

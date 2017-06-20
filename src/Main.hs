@@ -30,6 +30,7 @@ import           System.INotify               as INotify
 import qualified System.Timeout
 import           Turtle                       (ExitCode (..), fp, s, void, (%))
 import qualified Turtle
+import qualified Turtle.Line
 
 data Options w = Options
   { timeout :: w ::: Maybe Time.Units.Second <?> "Window to observe a filesystem event (default: 120s, negative values wait indefinitely)"
@@ -45,10 +46,11 @@ instance ParseRecord Time.Units.Second where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields Time.Units.Second
 instance ParseField Time.Units.Second where
-  parseField h n =
+  parseField h n c =
     fmap (Time.Units.fromMicroseconds . (*μ))
       (Options.option Options.auto $
        (  Options.metavar "Seconds"
+       <> foldMap  Options.short               c
        <> foldMap (Options.long . Text.unpack) n
        <> foldMap (Options.help . Text.unpack) h
        )
@@ -59,7 +61,7 @@ instance ParseRecord EventVariety where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields EventVariety
 instance ParseField EventVariety where
-  parseField _ _ =
+  parseField _ _ _ =
         Options.flag' Access       (Options.long "access")
     <|> Options.flag' Modify       (Options.long "modify")
     <|> Options.flag' Attrib       (Options.long "attrib")
@@ -89,7 +91,8 @@ main = do
   when exists $ do
     pathExists <- Turtle.testfile path
     when pathExists $ do
-      Turtle.err $ Turtle.format ("exists: "%fp) path
+      let msg = Turtle.format ("exists: "%fp) path
+      mapM_ Turtle.err (Turtle.Line.textToLines msg)
       Turtle.exit ExitSuccess
 
   mvar <- STM.atomically TMVar.newEmptyTMVar
@@ -118,11 +121,13 @@ main = do
             | otherwise
               -> empty
 
-  Turtle.err $ Turtle.format ("observing "%s%" for "%fp) eventsStr path
+  let msg0 = Turtle.format ("observing "%s%" for "%fp) eventsStr path
+  mapM_ Turtle.err (Turtle.Line.textToLines msg0)
 
   let timeoutWindow | timeout' > 0 = Text.pack (show timeout')
                     | otherwise    = "indefinite"
-  Turtle.err $ Turtle.format ("the window for an observation is "%s) timeoutWindow
+  let msg1 = Turtle.format ("the window for an observation is "%s) timeoutWindow
+  mapM_ Turtle.err (Turtle.Line.textToLines msg1)
 
   let doWatch =
         withINotify (\i -> do
@@ -145,4 +150,4 @@ main = do
    (fromIntegral $ Time.Units.toMicroseconds timeout')
    doWatch >>= \case
     Nothing -> Turtle.exit (ExitFailure 1)
-    Just ev -> Turtle.echo (Text.pack $ show ev)
+    Just ev -> mapM_ Turtle.echo (Turtle.Line.textToLines (Text.pack $ show ev))
