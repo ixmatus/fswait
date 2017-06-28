@@ -5,6 +5,10 @@ let
         overrides = haskellPackagesNew: haskellPackagesOld: {
           optparse-generic =
             haskellPackagesNew.callPackage ./nix/optparse-generic.nix { };
+          optparse-applicative =
+            haskellPackagesNew.callPackage ./nix/optparse-applicative.nix { };
+          turtle =
+            haskellPackagesNew.callPackage ./nix/turtle.nix { };
           fswait =
             haskellPackagesNew.callPackage ./default.nix { };
         };
