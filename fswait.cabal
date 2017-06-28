@@ -1,5 +1,5 @@
 name:                fswait
-version:             1.0.0
+version:             1.1.0
 synopsis:            Wait and observe events on the filesystem for a path, with a timeout
 homepage:            https://github.com/ixmatus/fswait
 Bug-Reports:         https://github.com/ixmatus/fswait/issues
