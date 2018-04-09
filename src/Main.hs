@@ -57,6 +57,7 @@ instance ParseField Time.Units.Second where
       )
 
 deriving instance Show EventVariety
+deriving instance Read EventVariety
 instance ParseRecord EventVariety where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields EventVariety
@@ -80,6 +81,8 @@ instance ParseField EventVariety where
     <|> Options.flag' MaskAdd      (Options.long "maskAdd")
     <|> Options.flag' OneShot      (Options.long "oneShot")
     <|> Options.flag' AllEvents    (Options.long "all")
+
+  metavar _ = "EVENT"
 
 μ :: Integer
 μ = 10 ^ (6 :: Integer)
