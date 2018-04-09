@@ -16,7 +16,6 @@ import           Control.Concurrent           (threadDelay)
 import qualified Control.Concurrent.STM       as STM
 import qualified Control.Concurrent.STM.TMVar as TMVar
 import           Control.Monad                (when)
-import           Data.ByteString.Char8        ()  -- For `IsString` instance
 import           Data.List.NonEmpty           (NonEmpty)
 import qualified Data.List.NonEmpty           as NonEmpty
 import           Data.Maybe                   (fromMaybe)
