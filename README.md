@@ -1,6 +1,6 @@
 # Welcome!
 
-[![Build Status](https://travis-ci.org/ixmatus/fswait.png)](https://travis-ci.org/ixmatus/fswait)
+[![Build Status](https://github.com/evanrelf/template/actions/workflows/ci.yml/badge.svg)](https://github.com/evanrelf/template/actions/workflows/ci.yml)
 
 `fswait` is a utility for blocking on the observation of a filesystem event for
 a path with a timeout.
@@ -60,5 +60,3 @@ If you have Nix you can install it using:
 ```shell
 $ nix-env --install --attr fswait release.nix
 ```
-
-
