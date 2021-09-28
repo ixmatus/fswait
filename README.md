@@ -1,6 +1,6 @@
 # Welcome!
 
-[![Build Status](https://github.com/evanrelf/template/actions/workflows/ci.yml/badge.svg)](https://github.com/evanrelf/template/actions/workflows/ci.yml)
+[![Build Status](https://github.com/ixmatus/fswait/actions/workflows/ci.yml/badge.svg)](https://github.com/ixmatus/fswait/actions/workflows/ci.yml)
 
 `fswait` is a utility for blocking on the observation of a filesystem event for
 a path with a timeout.
