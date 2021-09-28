@@ -20,6 +20,7 @@ import           Data.List.NonEmpty           (NonEmpty)
 import qualified Data.List.NonEmpty           as NonEmpty
 import           Data.Maybe                   (fromMaybe)
 import           Data.Monoid                  ((<>))
+import           Data.String                  (fromString)
 import qualified Data.Text                    as Text
 import qualified Data.Time.Units              as Time.Units
 import qualified Filesystem.Path              as Path
@@ -46,13 +47,13 @@ instance ParseRecord Time.Units.Second where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields Time.Units.Second
 instance ParseField Time.Units.Second where
-  parseField h n c =
+  parseField help long short _value =
     fmap (Time.Units.fromMicroseconds . (*μ))
       (Options.option Options.auto $
        (  Options.metavar "Seconds"
-       <> foldMap  Options.short               c
-       <> foldMap (Options.long . Text.unpack) n
-       <> foldMap (Options.help . Text.unpack) h
+       <> foldMap  Options.short               short
+       <> foldMap (Options.long . Text.unpack) long
+       <> foldMap (Options.help . Text.unpack) help
        )
       )
 
@@ -62,7 +63,7 @@ instance ParseRecord EventVariety where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields EventVariety
 instance ParseField EventVariety where
-  parseField _ _ _ =
+  parseField _help _long _short _value =
         Options.flag' Access       (Options.long "access")
     <|> Options.flag' Modify       (Options.long "modify")
     <|> Options.flag' Attrib       (Options.long "attrib")
@@ -101,8 +102,8 @@ main = do
   mvar <- STM.atomically TMVar.newEmptyTMVar
 
   let eventSet  = NonEmpty.toList (NonEmpty.nub events)
-  let watchdir  = Path.encodeString (Path.directory path)
-  let watchfile = Path.encodeString (Path.filename path)
+  let watchdir  = fromString (Path.encodeString (Path.directory path))
+  let watchfile = fromString (Path.encodeString (Path.filename path))
   let timeout'  = fromMaybe (Time.Units.fromMicroseconds (120 * μ)) timeout
   let eventsStr = Text.unwords $ fmap (Text.pack . show) eventSet
 
