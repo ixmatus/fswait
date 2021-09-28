@@ -11,7 +11,7 @@ copyright:           2017 Parnell Springmeyer
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
-Tested-With:         GHC == 7.10.2, GHC == 8.0.1
+Tested-With:         GHC == 7.10.2, GHC == 8.0.1, GHC == 8.10.7
 Category:            Tools
 Description:
     @fswait@ is a utility for blocking on the observation of a
