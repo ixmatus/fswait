@@ -40,7 +40,6 @@ executable fswait
               -- `hinotify` introduced a breaking change in `0.3.10` by
               -- using `RawFilePath` instead of `FilePath`
               , hinotify             >= 0.3     && < 0.3.10
-              , semigroups           >= 0.18    && < 0.19
               , text                 >= 0.11    && < 1.3
 
   hs-source-dirs:      src
