@@ -58,5 +58,5 @@ Available options:
 If you have Nix you can install it using:
 
 ```shell
-$ nix-env --install --attr fswait release.nix
+$ nix-env --install --file default.nix
 ```
