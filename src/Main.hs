@@ -46,13 +46,13 @@ instance ParseRecord Time.Units.Second where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields Time.Units.Second
 instance ParseField Time.Units.Second where
-  parseField h n c =
+  parseField help long short _value =
     fmap (Time.Units.fromMicroseconds . (*μ))
       (Options.option Options.auto $
        (  Options.metavar "Seconds"
-       <> foldMap  Options.short               c
-       <> foldMap (Options.long . Text.unpack) n
-       <> foldMap (Options.help . Text.unpack) h
+       <> foldMap  Options.short               short
+       <> foldMap (Options.long . Text.unpack) long
+       <> foldMap (Options.help . Text.unpack) help
        )
       )
 
@@ -62,7 +62,7 @@ instance ParseRecord EventVariety where
   parseRecord = fmap getOnly parseRecord
 instance ParseFields EventVariety
 instance ParseField EventVariety where
-  parseField _ _ _ =
+  parseField _help _long _short _value =
         Options.flag' Access       (Options.long "access")
     <|> Options.flag' Modify       (Options.long "modify")
     <|> Options.flag' Attrib       (Options.long "attrib")
