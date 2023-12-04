@@ -19,7 +19,6 @@ import           Control.Monad                (when)
 import           Data.List.NonEmpty           (NonEmpty)
 import qualified Data.List.NonEmpty           as NonEmpty
 import           Data.Maybe                   (fromMaybe)
-import           Data.Monoid                  ((<>))
 import           Data.String                  (fromString)
 import qualified Data.Text                    as Text
 import qualified Data.Time.Units              as Time.Units
