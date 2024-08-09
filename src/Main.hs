@@ -23,8 +23,6 @@ import           Data.Monoid                  ((<>))
 import           Data.String                  (fromString)
 import qualified Data.Text                    as Text
 import qualified Data.Time.Units              as Time.Units
-import qualified Filesystem.Path              as Path
-import qualified Filesystem.Path.CurrentOS    as Path
 import qualified Options.Applicative          as Options
 import           Options.Generic
 import           System.INotify               as INotify
@@ -35,7 +33,7 @@ import qualified Turtle.Line
 
 data Options w = Options
   { timeout :: w ::: Maybe Time.Units.Second <?> "Window to observe a filesystem event (default: 120s, negative values wait indefinitely)"
-  , path    :: w ::: Path.FilePath           <?> "Observe filesystem events for path"
+  , path    :: w ::: FilePath                <?> "Observe filesystem events for path"
   , exists  :: w ::: Bool                    <?> "Return immediately if the filepath already exists"
   , events  :: w ::: NonEmpty EventVariety   <?> "Observable event"
   } deriving (Generic)
@@ -102,8 +100,8 @@ main = do
   mvar <- STM.atomically TMVar.newEmptyTMVar
 
   let eventSet  = NonEmpty.toList (NonEmpty.nub events)
-  let watchdir  = fromString (Path.encodeString (Path.directory path))
-  let watchfile = fromString (Path.encodeString (Path.filename path))
+  let watchdir  = fromString (Turtle.directory path)
+  let watchfile = fromString (Turtle.filename path)
   let timeout'  = fromMaybe (Time.Units.fromMicroseconds (120 * μ)) timeout
   let eventsStr = Text.unwords $ fmap (Text.pack . show) eventSet
 
