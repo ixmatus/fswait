@@ -31,7 +31,7 @@ executable fswait
   ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
                 base                 >= 4.8     && < 5
-              , optparse-generic     >= 1.4     && < 1.5
+              , optparse-generic     >= 1.4     && < 1.6
               , optparse-applicative
               , turtle               >= 1.6.1   && < 1.7
               , time-units           >= 1.0.0   && < 2.0
